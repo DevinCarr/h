@@ -6,7 +6,7 @@
         placeholder="Character Name"
         v-if="!health.nameSet"
         v-model="health.name"
-        @keydown.enter="health.nameSet = true"
+        @keydown.enter="health.nameSet=health.name.trim().length>0"
       ></input>
       <span v-else @click="health.nameSet = false">{{ health.name }}</span>
       <span v-if="minimize" v-bind:class="{ 'text-danger': alive() }">{{ health.current }}</span>
@@ -20,18 +20,29 @@
       </div>
     </div>
     <div v-if="!minimize">
-      <div class="card-body">
-        <div class="card-title" v-bind:class="{ 'text-danger': alive() }">
-          <span >{{ health.current }} / </span>
+      <div class="card-body" >
+        <div v-bind:class="{ 'text-danger': alive() }">
+          <span class="health-current">{{ health.current }} / </span>
           <input
             type="number"
             placeholder="Max"
-            class="max-health-input"
+            class="health-current"
             v-if="!health.maxSet"
             v-model="health.max"
             @keydown.enter="health.maxSet = true"
           ></input>
-          <span v-else @click="health.maxSet = false">{{ health.max }}</span>
+          <span class="health-current" v-else @click="health.maxSet = false">{{ health.max }}</span>
+        </div>
+        <div style="align-self:center">
+          <input
+            type="number"
+            placeholder="12"
+            class="health-current"
+            v-if="!health.acSet"
+            v-model="health.ac"
+            @keydown.enter="health.acSet = true"
+          ></input>
+          <span class="card-subtitle mb-2 text-muted" v-else @click="health.acSet = false">AC{{ health.ac }}</span>
         </div>
       </div>
       <ul class="list-group list-group-flush">
@@ -50,13 +61,20 @@
           <button @click="healFull()" type="button" class="btn btn-primary btn-sm">Heal</button>
           <button @click="kill()" type="button" class="btn btn-warning btn-sm">Kill</button>
         </li>
+        <SpellSlot
+          v-bind:spellslots="health.spellslots"
+        />
       </ul>
     </div>
   </div>
 </template>
 
 <script>
+import SpellSlot from './SpellSlot'
 export default {
+  components: {
+    SpellSlot
+  },
   data: () => ({
     changeValue: 3,
     characterName: '',
@@ -106,17 +124,27 @@ export default {
   font-size: 1em;
 }
 
-.card-title {
+.card-subtitle {
+  font-size: 2em;
+}
+
+.card-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.health-current {
+  font-size: 3em;
+  width: 2em;
+}
+
+input.health-current {
   font-size: 3em;
 }
 
 .health-header {
   display: inline-flex;
   justify-content: space-between;
-}
-
-.max-health-input {
-  width: 2em;
 }
 
 li.change-health {

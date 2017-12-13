@@ -4,6 +4,8 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+window.URL = window.URL || window.webkitURL
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
