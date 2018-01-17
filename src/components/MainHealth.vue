@@ -34,12 +34,12 @@
             </button>
           </div>
           <div class="modal-body">
-            <a data-dismiss="modal" @click="fetchFile('/static/endyn.json')" href="#"><h4>Endyn</h4></a>
+            <a data-dismiss="modal" @click="fetchFile('static/endyn.json')" href="#"><h4>Endyn</h4></a>
             <h4>Beast Shapes</h4>
             <ul>
-              <li><a data-dismiss="modal" @click="fetchFile('/static/ape.json')" href="#">Ape (19/12)</a></li>
-              <li><a data-dismiss="modal" @click="fetchFile('/static/black_bear.json')" href="#">Black Bear (19/11)</a></li>
-              <li><a data-dismiss="modal" @click="fetchFile('/static/reef_shark.json')" href="#">Reef Shark (22/12)</a></li>
+              <li><a data-dismiss="modal" @click="fetchFile('static/ape.json')" href="#">Ape (19/12)</a></li>
+              <li><a data-dismiss="modal" @click="fetchFile('static/black_bear.json')" href="#">Black Bear (19/11)</a></li>
+              <li><a data-dismiss="modal" @click="fetchFile('static/reef_shark.json')" href="#">Reef Shark (22/12)</a></li>
             </ul>
           </div>
         </div>
