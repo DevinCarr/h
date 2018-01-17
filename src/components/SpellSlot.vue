@@ -1,21 +1,17 @@
 <template>
   <div class="list-group list-group-flush">
     <li v-for="(slot,index) in spellslots" class="list-group-item spellslots">
-        <span @click="updateMax(index)">{{ index + 1}} : &nbsp;</span>
-        <div v-for="item in slot.max-slot.available">
-          <input class="position-static" type="radio" value="" aria-label="..." checked disabled>
-          &nbsp;
-        </div>
-        <div v-for="item in slot.available">
-          <input class="position-static" type="radio" value="" aria-label="..." disabled>
-          &nbsp;
-        </div>
-      <div>
+        <span @click="updateMax(index)">{{ index + 1}} :</span>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" :style="'width:' + slot.available / slot.max * 100.0 + '%'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{ slot.available + '/' + slot.max }}</div>
+          </div>
+        <div>
         <button @click="gain(index)" type="button" class="btn btn-success btn-sm">Gain</button>
         <button @click="use(index)" type="button" class="btn btn-primary btn-sm">Use</button>
       </div>
     </li>
   </div>
+
 </template>
 
 <script>
@@ -101,5 +97,11 @@ button.close {
   width: 3em;
   margin-left: 0.5em;
   margin-right: 0.5em;
+}
+
+.progress {
+  display: inline-flex;
+  width: 50%;
+  height: 2.5em;
 }
 </style>
