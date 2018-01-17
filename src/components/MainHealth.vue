@@ -5,6 +5,7 @@
       <a class="navbar-brand" href="#">D&amp;D Health</a>
       <div class="add-buttons">
         <button type="button" class="btn btn-secondary" @click="addItem()">Add New</button>
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#presetModal">Presets</button>
         <button type="button" class="btn btn-secondary" @click="triggerInput()">Import</button>
       </div>
     </nav>
@@ -18,6 +19,28 @@
               v-bind:health="health"
               v-bind:key="health.id"
             />
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="presetModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="presetModalLabel">Character Presets</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <a data-dismiss="modal" @click="fetchFile('/static/endyn.json')" href="#"><h4>Endyn</h4></a>
+            <h4>Beast Shapes</h4>
+            <ul>
+              <li><a data-dismiss="modal" @click="fetchFile('/static/ape.json')" href="#">Ape (19/12)</a></li>
+              <li><a data-dismiss="modal" @click="fetchFile('/static/black_bear.json')" href="#">Black Bear (19/11)</a></li>
+              <li><a data-dismiss="modal" @click="fetchFile('/static/reef_shark.json')" href="#">Reef Shark (22/12)</a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -60,6 +83,20 @@ export default {
         reader.readAsBinaryString(files[0])
       }
       // No json selected
+    },
+    fetchFile (url) {
+      let result = fetch(url)
+      result.then(response => {
+        console.log('response', response)
+        console.log('header', response.headers.get('Content-Type'))
+        return response.text()
+      }).then(jsonText => {
+        if (jsonText !== undefined) {
+          this.addItem(jsonText)
+        }
+      }).catch(ex => {
+        console.log('failed', ex)
+      })
     },
     importCharacter (json) {
       let valid = json.hasOwnProperty('max') &&
@@ -124,6 +161,10 @@ h1, h2 {
   display: inline-flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.modal-body {
+  text-align: left;
 }
 
 header .add-buttons {
